@@ -17,20 +17,228 @@ Observe the Waveforms Analyze the output waveforms in the simulation window, and
 Save and Document Results Capture screenshots of the waveform and save the simulation logs. These will be included in the lab report.
 # Code
 # Mealy 1011
-// Verilog code
+```verilog
+module mealy_fsm_1011(
+            input clk,rst,xin,
+            output reg zout
+        );
+        parameter [2:0] s1 = 3'b000,
+                        s2 = 3'b001,
+                        s3 = 3'b010,
+                        s4 = 3'b011;
+       reg [2:0] ps,ns;
+ always@(posedge clk)
+   begin
+      if(rst)
+          ps <= s1;
+      else
+          ps <= ns;
+   end      
+ always@(xin or ps)
+     begin 
+         case(ps)
+           s1 : if(xin) begin
+                     ns = s2;
+                     zout = 0;
+                 end             
+                else  begin
+                     ns = s1;
+                     zout = 0;
+                 end 
+           s2 : if(xin) begin
+                     ns = s2;
+                     zout = 0;
+                 end             
+                else  begin
+                     ns = s3;
+                     zout = 0;
+                 end             
+           s3 : if(xin) begin
+                     ns = s4;
+                     zout = 0;
+                 end             
+                else  begin
+                     ns = s1;
+                     zout = 0;
+                 end              
+           s4 : if(xin) begin
+                     ns = s1;
+                     zout = 1;
+                 end             
+                else  begin
+                     ns = s3;
+                     zout = 0;
+                 end              
+       endcase
+    end
+endmodule
+```
 
-// Test bench
+# Test bench
+```verilog
+module mealy_fsm_1011_tb;
+        reg clk_t,rst_t,xin_t;
+        wire zout_t;
+        
+        mealy_fsm_1011 dut(.clk(clk_t),.rst(rst_t),.xin(xin_t),.zout(zout_t));
+           
+     initial
+        begin
+            clk_t = 1'b1;
+            rst_t = 1'b1;
+          #100
+            rst_t = 1'b0;
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b0;
+          #100
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b0;
+          #100
+            xin_t = 1'b1; 
+          #100
+           xin_t = 1'b1;              
+      end
+       always #50  clk_t = ~clk_t;                 
+endmodule
+```
+# output Waveform
 
-// output Waveform
+<img width="1920" height="1080" alt="Screenshot 2025-10-13 213009" src="https://github.com/user-attachments/assets/a4ad364b-af3f-43f2-bd24-c82780095651" />
+
 # Moore 1011
 
-// write verilog code for ROM using $random
+```verilog
+module moore_1011 (
+    input   clk,rst,xin,
+    output reg  zout
+);
+parameter [2:0]
+s0= 3'b000,
+s1= 3'b001,
+s2= 3'b010,
+s3= 3'b011,
+s4= 3'b100;
+reg [2:0] ps,ns;
+always @( posedge clk) 
+begin
+if (rst)
+ps<=s0;
+else
+ps<=ns;
+end
 
-// Test bench
+always @ (xin or ps)
+begin 
+case (ps)
+s0 :
+if (xin)
+begin
+ns=s1;
+zout=0;
+end
+else
+begin  
+ns=s0;
+zout=0;
+end
 
-// output Waveform
+s1 :
+if (xin)
+begin
+ns=s1;
+zout=0;
+end
+else
+begin  
+ns=s2;
+zout=0;
+end
+
+s2 :
+if (xin)
+begin
+ns=s3;
+zout=0;
+end
+else
+begin  
+ns=s0;
+zout=0;
+end
+
+s3 :
+if (xin)
+begin
+ns=s4;
+zout=0;
+end
+else
+begin  
+ns=s2;
+zout=0;
+end
+
+s4 :
+if (xin)
+begin
+ns=s1;
+zout=1;
+end
+else
+begin  
+ns=s0;
+zout=1;
+end
+endcase
+end
+endmodule 
+```
+
+# Test bench
+```verilog
+module moore_1011_tb;
+        reg clk_t,rst_t,xin_t;
+        wire zout_t;
+        
+        moore_1011 dut(.clk(clk_t),.rst(rst_t),.xin(xin_t),.zout(zout_t));
+           
+     initial
+        begin
+            clk_t = 1'b1;
+            rst_t = 1'b1;
+          #100
+            rst_t = 1'b0;
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b0;
+          #100
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b1;
+          #100
+            xin_t = 1'b0;
+          #100
+            xin_t = 1'b1; 
+          #100
+           xin_t = 1'b1;              
+      end
+       always #50  clk_t = ~clk_t;                 
+endmodule
+```
+# output Waveform
+
+<img width="1918" height="1107" alt="image" src="https://github.com/user-attachments/assets/efcc3568-bdaa-48fa-a5ab-321ad2e0c923" />
 
 
 
-Conclusion
+# Conclusion
+
 The Mealy and Moore state machine for sequence 1011 was designed and successfully simulated using Verilog HDL. The testbench verified both the write and read functionalities by simulating the sequence operations and observing the output waveforms.
