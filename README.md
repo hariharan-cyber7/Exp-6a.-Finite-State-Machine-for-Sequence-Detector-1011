@@ -109,7 +109,7 @@ endmodule
 ```
 # output Waveform
 
-<img width="1920" height="1080" alt="Screenshot 2025-10-13 213009" src="https://github.com/user-attachments/assets/a4ad364b-af3f-43f2-bd24-c82780095651" />
+<img width="1621" height="908" alt="Screenshot 2025-11-18 144359" src="https://github.com/user-attachments/assets/1703c17d-11b0-4fe5-babe-d34112342041" />
 
 # Moore 1011
 
